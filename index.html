@@ -2,7 +2,8 @@
 <html>
 
 <head>
-  <title>React Basics</title>
+  <title>Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     * {
@@ -10,33 +11,43 @@
       scrollbar-width: none;
     }
 
+    html,
     body {
       margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
       font-family: Arial, Helvetica, sans-serif;
       background: #eef1f5;
     }
 
-    .container-box {
-      width: 1000px;
-      height: 95vh;
-      margin: 2.5vh auto;
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-      height: 95vh;
-      display: flex;
-      flex-direction: column;
+    .js-container {
+      width: 100%;
+      height: 100%;
     }
 
+    .container-box {
+      width: min(1000px, 95%);
+      height: 95vh;
+      margin: 2.5vh auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
 
     .chat-header {
       height: 65px;
+      min-height: 65px;
       padding: 0 22px;
       display: flex;
       align-items: center;
       background: #51bb51;
-      color: white;
+      color: #ffffff;
     }
 
     .chat-header h2 {
@@ -52,28 +63,12 @@
 
     .chat-messages {
       flex: 1;
+      min-height: 0;
       padding: 20px;
-      overflow-y: auto;
-      background: #f8f9fb;
-
       display: flex;
       flex-direction: column;
-    }
-
-
-    .chat-messages::-webkit-scrollbar {
-      width: 6px;
-
-
-    }
-
-    .chat-messages::-webkit-scrollbar-thumb {
-      background: #c8c8c8;
-      border-radius: 10px;
-    }
-
-    .chat-messages::-webkit-scrollbar-track {
-      background: transparent;
+      overflow-y: auto;
+      background: #f8f9fb;
     }
 
     .chat-message {
@@ -93,97 +88,80 @@
     .chat-message img {
       width: 38px;
       height: 38px;
+      flex: 0 0 38px;
       border-radius: 50%;
       object-fit: cover;
     }
 
-
     .message-bubble {
       max-width: 65%;
-      padding: 11px 15px;
       margin: 0 10px;
-
+      padding: 11px 15px;
       font-size: 14px;
       line-height: 1.5;
-
-      word-wrap: break-word;
-    }
-
-    .robot-message .message-bubble {
-      background: white;
-      color: #222;
-
-      border: 1px solid #e4e6e8;
-
-      border-radius: 16px;
-      border-bottom-left-radius: 4px;
-    }
-
-    .user-message .message-bubble {
-      background: #51bb51;
-      color: white;
-
-      border-radius: 16px;
-      border-bottom-right-radius: 4px;
+      word-break: break-word;
     }
 
     .message-bubble p {
       margin: 0;
     }
 
+    .robot-message .message-bubble {
+      color: #222222;
+      background: #ffffff;
+      border: 1px solid #e4e6e8;
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+    }
 
-    .container-1 {
+    .user-message .message-bubble {
+      color: #ffffff;
+      background: #51bb51;
+      border-radius: 16px;
+      border-bottom-right-radius: 4px;
+    }
+
+    .input-section {
       width: 100%;
-      padding: 15px 18px;
-
+      min-height: 74px;
+      padding: 14px 18px;
       display: flex;
       align-items: center;
-
-      background: white;
+      gap: 10px;
+      background: #ffffff;
       border-top: 1px solid #e8e8e8;
     }
 
-
     .chat-input {
       flex: 1;
-
+      min-width: 0;
       height: 44px;
-
-      padding: 0 15px;
-
+      padding: 0 16px;
+      outline: none;
       border: 1px solid #d8dce0;
       border-radius: 22px;
-
-      outline: none;
-
-      font-size: 14px;
-
       background: #f7f8f9;
+      font-size: 14px;
+      transition: 0.2s;
     }
 
     .chat-input:focus {
       border-color: #51bb51;
-      background: white;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(81, 187, 81, 0.08);
     }
-
 
     .button {
       width: 85px;
+      min-width: 85px;
       height: 44px;
-
-      margin-left: 10px;
-
       border: none;
       border-radius: 22px;
-
       background: #51bb51;
-      color: white;
-
+      color: #ffffff;
       font-size: 14px;
       font-weight: bold;
-
       cursor: pointer;
-
       transition: 0.2s;
     }
 
@@ -195,276 +173,162 @@
       transform: scale(0.96);
     }
 
-    /* =========================================
-   PROFESSIONAL MOBILE CHAT UI
-   ========================================= */
-
-    @media screen and (max-width: 600px) {
-
-      html,
+    @media (max-width: 768px) {
       body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
+        background: #ffffff;
         overflow: hidden;
-        background: #f5f7fb;
       }
 
       .container-box {
         width: 100%;
         height: 100dvh;
         margin: 0;
-        padding: 0;
-        border: none;
         border-radius: 0;
         box-shadow: none;
-
-        display: flex;
-        flex-direction: column;
-
-        background: #ffffff;
       }
 
-
-      .chat-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
+      .chat-header {
+        height: 62px;
+        min-height: 62px;
+        padding: 0 16px;
       }
 
+      .chat-header h2 {
+        font-size: 18px;
+      }
+
+      .chat-header p {
+        font-size: 11px;
+      }
 
       .chat-messages {
-        flex: 1;
-        min-height: 0;
-
-        width: 100%;
-        box-sizing: border-box;
-
-        padding: 18px 14px 20px;
-
-        overflow-y: auto;
-        overflow-x: hidden;
-
-        scroll-behavior: smooth;
+        padding: 16px 12px;
+        overscroll-behavior: contain;
       }
 
-      /* Better scrollbar */
-      .chat-messages::-webkit-scrollbar {
-        width: 4px;
+      .chat-message {
+        margin-bottom: 13px;
       }
 
-      .chat-messages::-webkit-scrollbar-thumb {
-        background: #d1d5db;
-        border-radius: 10px;
+      .chat-message img {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
       }
 
-
-      .message {
-        max-width: 82%;
-        font-size: 15px;
-        line-height: 1.5;
-
+      .message-bubble {
+        max-width: 78%;
+        margin: 0 7px;
         padding: 10px 13px;
-
-        border-radius: 16px;
-
-        margin-bottom: 12px;
-
-        word-wrap: break-word;
-        overflow-wrap: anywhere;
+        font-size: 14px;
+        line-height: 1.45;
       }
-
-      .bot-message {
-        align-self: flex-start;
-
-        max-width: 82%;
-
-        border-bottom-left-radius: 5px;
-      }
-
-      .user-message {
-        align-self: flex-end;
-
-        max-width: 82%;
-
-        border-bottom-right-radius: 5px;
-      }
-
-
 
       .input-section {
-        width: 100%;
-
-        flex-shrink: 0;
-
-        box-sizing: border-box;
-
+        min-height: 68px;
         padding: 10px 12px;
-
-        background: #ffffff;
-
-        border-top: 1px solid #e5e7eb;
-
-        display: flex;
-        align-items: center;
-
         gap: 8px;
       }
 
-
-
-      .input-section input {
-        flex: 1;
-
-        min-width: 0;
-
-        height: 44px;
-
-        box-sizing: border-box;
-
-        border: 1px solid #d9dee7;
-
-        border-radius: 22px;
-
-        padding: 0 16px;
-
-        outline: none;
-
+      .chat-input {
+        height: 46px;
+        padding: 0 15px;
+        border-radius: 23px;
         font-size: 15px;
-
-        background: #f8fafc;
-
-        transition: 0.2s;
       }
 
-      .input-section input:focus {
-        border-color: #6366f1;
-
-        background: #ffffff;
-
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
-      }
-
-
-      .input-section button {
-        width: 44px;
-        height: 44px;
-
-        min-width: 44px;
-
+      .button {
+        width: 46px;
+        min-width: 46px;
+        height: 46px;
         padding: 0;
-
-        border: none;
-
         border-radius: 50%;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
         font-size: 0;
-
-        cursor: pointer;
-
-        background: #4f46e5;
-
-        color: white;
-
-        box-shadow: 0 3px 8px rgba(79, 70, 229, 0.25);
-
-        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      /* Send icon */
-
-      .input-section button::after {
+      .button::before {
         content: "➤";
-
         font-size: 18px;
+      }
+    }
 
-        transform: translateX(1px);
+    @media (max-width: 380px) {
+      .chat-header {
+        height: 58px;
+        min-height: 58px;
       }
 
-      .input-section button:active {
-        transform: scale(0.94);
+      .chat-messages {
+        padding: 12px 9px;
       }
 
+      .message-bubble {
+        max-width: 82%;
+        font-size: 13px;
+        padding: 9px 12px;
+      }
 
+      .chat-message img {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+      }
 
-      @media screen and (max-width: 380px) {
+      .input-section {
+        padding: 9px;
+      }
 
-        .chat-messages {
-          padding-left: 10px;
-          padding-right: 10px;
-        }
+      .chat-input {
+        height: 44px;
+        font-size: 14px;
+      }
 
-        .message {
-          max-width: 86%;
-          font-size: 14px;
-        }
-
-        .input-section {
-          padding: 8px 9px;
-          gap: 7px;
-        }
-
-        .input-section input {
-          height: 42px;
-          font-size: 14px;
-          padding: 0 14px;
-        }
-
-        .input-section button {
-          width: 42px;
-          height: 42px;
-          min-width: 42px;
-        }
+      .button {
+        width: 44px;
+        min-width: 44px;
+        height: 44px;
       }
     }
   </style>
-
-
-
 </head>
 
 <body>
+
   <div class="js-container"></div>
 
   <script src="https://unpkg.com/supersimpledev/react.js"></script>
   <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
-
   <script src="https://unpkg.com/supersimpledev/Chatbot.js"></script>
-
   <script src="https://unpkg.com/supersimpledev/babel.js"></script>
-  <script type="text/babel">
 
+  <script type="text/babel">
 
     function ChatbotInput({ messages, setMessages }) {
       const [inputMsg, setMsg] = React.useState("");
 
       function sendMessage() {
+        if (!inputMsg.trim()) {
+          return;
+        }
 
         const newChatmsg = [
-          ...messages, {
+          ...messages,
+          {
             message: inputMsg,
             sender: "user",
             key: crypto.randomUUID()
           }
-        ]
+        ];
 
-        setMessages(newChatmsg);
-
-        const Response = Chatbot.getResponse(inputMsg);
+        const response = Chatbot.getResponse(inputMsg);
 
         setMessages([
-          ...newChatmsg, {
-            message: Response,
+          ...newChatmsg,
+          {
+            message: response,
             sender: "robot",
             key: crypto.randomUUID()
           }
@@ -473,32 +337,46 @@
         setMsg("");
       }
 
+      function handleKeyDown(event) {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      }
+
       return (
-        <div class="input-section">
+        <div className="input-section">
           <input
             className="chat-input"
-            type="text" placeholder="Send a Message To Chatbot"
+            type="text"
+            placeholder="Message..."
             value={inputMsg}
             onChange={(event) => setMsg(event.target.value)}
+            onKeyDown={handleKeyDown}
           />
+
           <button
             className="button"
             onClick={sendMessage}
-          >Send</button>
+          >
+            Send
+          </button>
         </div>
-      )
-    };
+      );
+    }
 
     function ChatbotMessage({ message, sender }) {
       return (
         <div
-          className={`chat-message ${sender === "robot" ? "robot-message" : "user-message"
-            }`}
+          className={`chat-message ${
+            sender === "robot"
+              ? "robot-message"
+              : "user-message"
+          }`}
         >
 
           {sender === "robot" && (
             <img
-              src="./ChatBotProject/robot.jpg"
+              src="./robot.jpg"
               alt="Robot"
             />
           )}
@@ -509,7 +387,7 @@
 
           {sender === "user" && (
             <img
-              src="./ChatBotProject/user.jpg"
+              src="./user.jpg"
               alt="User"
             />
           )}
@@ -518,14 +396,11 @@
       );
     }
 
-
     function App() {
-
       const [messages, setMessages] = React.useState([]);
 
       return (
         <div className="container-box">
-
 
           <div className="chat-header">
             <div>
@@ -535,7 +410,6 @@
           </div>
 
           <div className="chat-messages">
-
             {messages.map((message) => (
               <ChatbotMessage
                 message={message.message}
@@ -543,9 +417,7 @@
                 key={message.key}
               />
             ))}
-
           </div>
-
 
           <ChatbotInput
             messages={messages}
@@ -556,10 +428,14 @@
       );
     }
 
-    const container = document.querySelector('.js-container');
-    ReactDOM.createRoot(container).render(<App />);
+    const container = document.querySelector(".js-container");
+
+    ReactDOM
+      .createRoot(container)
+      .render(<App />);
 
   </script>
+
 </body>
 
 </html>
